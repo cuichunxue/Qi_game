@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>絶対に負けない三目並べ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">絶対に負けない<br>三目並べ</h1>
+        </header>
+
+        <div class="game-info">
+            <div class="current-player">
+                <span id="current-player-text">プレイヤー</span>
+                <span id="current-player-symbol" class="player-symbol">X</span>
+                <span>のターン</span>
+            </div>
+            <div class="score">
+                <div class="score-item">
+                    <span class="score-label">X</span>
+                    <span id="score-x" class="score-value">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">引分</span>
+                    <span id="score-draw" class="score-value">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">O</span>
+                    <span id="score-o" class="score-value">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-board" id="game-board">
+            <div class="cell" data-cell="0"></div>
+            <div class="cell" data-cell="1"></div>
+            <div class="cell" data-cell="2"></div>
+            <div class="cell" data-cell="3"></div>
+            <div class="cell" data-cell="4"></div>
+            <div class="cell" data-cell="5"></div>
+            <div class="cell" data-cell="6"></div>
+            <div class="cell" data-cell="7"></div>
+            <div class="cell" data-cell="8"></div>
+        </div>
+
+        <div class="controls">
+            <button id="reset-button" class="btn btn-reset">もう一度</button>
+            <button id="clear-score-button" class="btn btn-clear">スコアリセット</button>
+        </div>
+
+        <div id="result-modal" class="modal">
+            <div class="modal-content">
+                <div id="result-icon" class="result-icon"></div>
+                <h2 id="result-text" class="result-text"></h2>
+                <button id="modal-close" class="btn btn-primary">次のゲーム</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
