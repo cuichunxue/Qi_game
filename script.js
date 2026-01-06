@@ -2,6 +2,7 @@
 let currentPlayer = 'X';
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let gameActive = true;
+let nextStarter = 'X'; // 次のゲームの先手
 let scores = {
     X: 0,
     O: 0,
@@ -105,6 +106,7 @@ function checkResult() {
     if (roundWon) {
         gameActive = false;
         highlightWinningCells(winningCombination);
+        nextStarter = currentPlayer; // 勝者が次のゲームの先手
         setTimeout(() => {
             showResult(`プレイヤー ${currentPlayer} の勝利！`, getWinnerEmoji(currentPlayer));
             updateScore(currentPlayer);
@@ -115,6 +117,8 @@ function checkResult() {
     // 引き分けチェック
     if (!gameBoard.includes('')) {
         gameActive = false;
+        // 引き分けの場合は先手を交代
+        nextStarter = nextStarter === 'X' ? 'O' : 'X';
         setTimeout(() => {
             showResult('引き分け！', '🤝');
             updateScore('draw');
@@ -161,9 +165,16 @@ function closeModal() {
 
 // ゲームリセット
 function resetGame() {
+    // ゲーム中にリセットする場合は確認
+    if (gameActive && !gameBoard.every(cell => cell === '')) {
+        if (!confirm('ゲーム中ですが、リセットしますか？')) {
+            return;
+        }
+    }
+
     gameBoard = ['', '', '', '', '', '', '', '', ''];
     gameActive = true;
-    currentPlayer = 'X';
+    currentPlayer = nextStarter; // 次の先手から開始
 
     cells.forEach(cell => {
         cell.textContent = '';
@@ -181,31 +192,39 @@ function updateScore(winner) {
         scores[winner]++;
     }
 
-    updateScoreDisplay();
+    updateScoreDisplay(winner);
     saveScores();
 }
 
 // スコア表示更新
-function updateScoreDisplay() {
+function updateScoreDisplay(highlightWinner = null) {
     scoreX.textContent = scores.X;
     scoreO.textContent = scores.O;
     scoreDraw.textContent = scores.draw;
 
-    // スコア更新のアニメーション
-    [scoreX, scoreO, scoreDraw].forEach(element => {
-        element.style.transform = 'scale(1.3)';
-        element.style.color = '#e74c3c';
-        setTimeout(() => {
-            element.style.transform = 'scale(1)';
-            element.style.color = '';
-        }, 300);
-    });
+    // スコア更新のアニメーション（更新されたスコアのみ）
+    if (highlightWinner) {
+        let targetElement;
+        if (highlightWinner === 'X') targetElement = scoreX;
+        else if (highlightWinner === 'O') targetElement = scoreO;
+        else if (highlightWinner === 'draw') targetElement = scoreDraw;
+
+        if (targetElement) {
+            targetElement.style.transform = 'scale(1.4)';
+            targetElement.style.color = '#e74c3c';
+            setTimeout(() => {
+                targetElement.style.transform = 'scale(1)';
+                targetElement.style.color = '';
+            }, 400);
+        }
+    }
 }
 
 // スコアクリア
 function clearScore() {
     if (confirm('スコアをリセットしますか？')) {
         scores = { X: 0, O: 0, draw: 0 };
+        nextStarter = 'X'; // 先手もリセット
         updateScoreDisplay();
         saveScores();
 

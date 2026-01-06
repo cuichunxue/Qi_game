@@ -63,7 +63,17 @@ body {
     background: white;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
 }
 
 .current-player:hover {
@@ -185,12 +195,14 @@ body {
     color: var(--color-x);
     background: rgba(231, 76, 60, 0.1);
     animation: placeSymbol 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    cursor: not-allowed;
 }
 
 .cell.o {
     color: var(--color-o);
     background: rgba(52, 152, 219, 0.1);
     animation: placeSymbol 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    cursor: not-allowed;
 }
 
 .cell.winning {
